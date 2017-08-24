@@ -3,4 +3,10 @@
 Dependencies:
 bs4 (pip install bs4)
 
-To run, edit mutscraper.py with ovr_min and ovr_max to be the min and max overalls of the players to search for. Then invoke 'python mutscraper.py' from command line
+To invoke from command line, use the following syntax:
+
+python mutscraper.py <b>xbox-one|playstation-4|all</b> <i>list of team names, comma separated, no spaces (use <b>all</b> instead for all teams)</i> minimum_overall maximum_overall
+
+Example, to see all team silvers for Xbox for the Giants and Patriots with ovr 60-64:
+
+python mutscraper.py xbox-one giants,patriots 60 64

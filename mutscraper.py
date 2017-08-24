@@ -7,19 +7,45 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 base_url = 'http://www.muthead.com'
-ovr_min = 60
-ovr_max = 64
+ovr_min = sys.argv[3]
+ovr_max = sys.argv[4]
 
 market = {'xbox-one':4,'playstation-4':3}
 
+selected_market = {}
+
+market_args = sys.argv[1]
+if 'all' in market_args:
+    selected_market = market
+else:
+    market_args = market_args.split(",")
+    for item in market_args:
+        if market.has_key(item):
+            selected_market[item] = market[item]
+        else:
+            print "Invalid argument \"" + item + "\""
+    
 teams = {'cardinals':67,'falcons':41,'ravens':52,'bills':63,'panthers':48,'bears':61,'bengals':62,'browns':65,'cowboys':38,'broncos':64,
          'lions':46,'packers':47,'texans':59,'colts':70,'jaguars':44,'chiefs':69,'rams':51,'dolphins':39,'vikings':58,'patriots':49,'saints':54,
          'giants':43,'jets':45,'raiders':50,'eagles':40,'steelers':56,'chargers':68,'49ers':42,'seahawks':55,'buccaneers':66,'titans':57,
          'redskins':53}
 
-for market_key, market_value in market.items():
+selected_teams = {}
+
+team_args = sys.argv[2]
+if 'all' in team_args:
+    selected_teams = teams
+else:
+    team_args = team_args.split(",")
+    for item in team_args:
+        if teams.has_key(item):
+            selected_teams[item] = teams[item]
+        else:
+            print "Invalid argument \"" + item + "\""
+
+for market_key, market_value in selected_market.items():
     print(market_key)
-    for teams_key, teams_value in teams.items():
+    for teams_key, teams_value in selected_teams.items():
         prices = []
         page_num = 1
         isNext = True
@@ -59,6 +85,8 @@ for market_key, market_value in market.items():
                 page_num = page_num + 1
             else:
                 isNext = False
-
-        average = sum(prices)/len(prices)
+        if len(prices) > 0:
+            average = sum(prices)/len(prices)
+        else:
+            average = 0
         print teams_key + ":" + str(average)
